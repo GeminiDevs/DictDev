@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request
-from dictionary import Dictionary
+from dictionary import Dictionary, error_message
 
 app = Flask(__name__)
 dictObject = Dictionary()
@@ -32,6 +32,8 @@ def getform():
             result = dictObject.adjective(word=search)
         elif dictObject.trans_verb(word=search):
             result = dictObject.trans_verb(search)
+        else:
+            result = error_message
 
     return render_template("index.html", meaning=result, word=search.upper())
 
