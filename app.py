@@ -15,6 +15,15 @@ def index():
 def getform():
     if request.method == "POST":
         search = request.form['search']
+
+        """
+        We are checking whether each type of word is available.
+        If it is, then make it the result. 
+        e.g..
+        If the noun word is available, then the result is the noun word.
+        It may be a shitty way of doing things, but it works so I won't touch it anymore
+        """
+
         if dictObject.noun(word=search):
             result = dictObject.noun(search)
         elif dictObject.verb(word=search):
