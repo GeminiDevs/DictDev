@@ -1,59 +1,65 @@
 import requests
 
+"""
+I know it's spaghetti code but cut me some slack...
+I'm now just learning OOP techniques
+"""
 
-def dictionary(word):
-    content = requests.get(f"https://api.dictionaryapi.dev/api/v1/entries/en/{word}").json()
-    definition = []
 
-    # Handle exceptions of different types of words
-    try:
-        noun_def = content[0]["meaning"]["noun"][0]["definition"]
-        pronunciation = content[0]["phonetics"][0]["text"]
-        example = content[0]["meaning"]["noun"][0]["example"]
-        synonyms = content[0]["meaning"]["noun"][0]["synonyms"]
-        syn = []
-        for synonym in synonyms:
-            syn.append(synonym)
-        definition.append(noun_def)
-    except Exception:
-        pass
+class Dictionary:
+    def __init__(self):
+        return
 
-    try:
-        verb_def = content[0]["meaning"]["verb"][0]["definition"]
-        pronunciation = content[0]["phonetics"][0]["text"]
-        example = content[0]["meaning"]["verb"][0]["example"]
-        synonyms = content[0]["meaning"]["verb"][0]["synonyms"]
-        syn = []
-        for synonym in synonyms:
-            syn.append(synonym)
-    except Exception:
-        pass
+    """
+    Enclose everything in a try-except block since it is good practice to plan to fail
+    """
 
-    try:
-        adj_def = content[0]["meaning"]["adjective"][0]["definition"]
-        pronunciation = content[0]["phonetics"][0]["text"]
-        example = content[0]["meaning"]["adjective"][0]["example"]
-        synonyms = content[0]["meaning"]["adjective"][0]["synonyms"]
-        syn = []
-        for synonym in synonyms:
-            syn.append(synonym)
-    except KeyError:
-        pass
+    # In case the word is a noun
+    def noun(self, word):
+        content = requests.get(f"https://api.dictionaryapi.dev/api/v1/entries/en/{word}").json()
+        try:
+            noun_def = content[0]["meaning"]["noun"][0]["definition"]
+        except Exception:
+            print("Encountered some bloody error")
+            pass
+        return noun_def
 
-    try:
-        trans_verb = content[0]["meaning"]["transitive verb"][0]["definition"]
-        pronunciation = content[0]["phonetics"][0]["text"]
-        example = content[0]["meaning"]["transitive verb"][0]["example"]
-        synonyms = content[0]["meaning"]["transitive verb"][0]["synonyms"]
-        syn = []
-        for synonym in synonyms:
-            syn.append(synonym)
-    except Exception:
-        pass
+    # In case the word is a verb
+    def verb(self, word):
+        content = requests.get(f"https://api.dictionaryapi.dev/api/v1/entries/en/{word}").json()
+        try:
+            verb_def = content[0]["meaning"]["verb"][0]["definition"]
+        except Exception:
+            print("Encountered some bloody error")
+            pass
+        return verb_def
 
-    try:
-        audio = content[0]["phonetics"][0]["audio"]
-    except Exception:
-        print("Some bloody problem encountered.")
+    # In case the word is an adjective
+    def adjective(self, word):
+        content = requests.get(f"https://api.dictionaryapi.dev/api/v1/entries/en/{word}").json()
+        try:
+            adj_def = content[0]["meaning"]["verb"][0]["definition"]
+        except Exception:
+            print("Encountered some bloody error")
+            pass
+        return adj_def
 
-    return definition
+    # In case the word is a transitive verb
+    def trans_verb(self, word):
+        content = requests.get(f"https://api.dictionaryapi.dev/api/v1/entries/en/{word}").json()
+        try:
+            trans_verb_def = content[0]["meaning"]["transitive verb"][0]["definition"]
+        except Exception:
+            print("Encountered some bloody error")
+            pass
+        return trans_verb_def
+
+    # Getting the audio pronunciation
+    def audio(self, word):
+        content = requests.get(f"https://api.dictionaryapi.dev/api/v1/entries/en/{word}").json()
+        try:
+            audio = content[0]["phonetics"][0]["audio"]
+        except Exception:
+            print("Some bloody problem encountered")
+        return audio
+
