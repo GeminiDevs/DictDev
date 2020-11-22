@@ -35,7 +35,7 @@ def getform():
         else:
             result = error_message
 
-    return render_template("index.html", meaning=result, word=search.upper())
+    return render_template("index.html", meaning=result, word=search.upper(), audio=dictObject.audio(word=search))
 
 
 if __name__ == '__main__':
